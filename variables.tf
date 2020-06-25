@@ -16,6 +16,10 @@ variable "generation" {
     default = 2
 }
 
+variable "vpc_schematics_workspace_id" {
+    description = "The schematics workspace ID that provisioned the VPC. Used to get VPC and subnets"
+}
+
 variable "vsi_resource_group" {
     description = "The name of the resource group for VSIs"
 }
