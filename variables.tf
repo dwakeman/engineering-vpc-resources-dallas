@@ -31,3 +31,8 @@ variable "app_resource_group" {
 variable "admin_resource_group" {
     description = "The name of the resource group for the Admin IKS cluster"
 }
+
+variable "cos_registry_instance" {
+    description = "the name of the COS instance for the Openshift Registry bucket"
+    default = "cos-openshift-registry"
+}

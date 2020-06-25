@@ -36,11 +36,11 @@ data "ibm_is_subnet" "app_subnet3" {
 }
 
 data "ibm_resource_group" "cos_group" {
-  name = "account-admin-services"
+  name = var.admin_resource_group
 }
 
 data "ibm_resource_instance" "cos_instance" {
-  name              = "cos-openshift-registry"
+  name              = var.cos_registry_instance
   resource_group_id = data.ibm_resource_group.cos_group.id
   service           = "cloud-object-storage"
 }
