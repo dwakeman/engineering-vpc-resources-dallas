@@ -1,6 +1,9 @@
+
+/*
 variable "ssh_key" {
     description = "The name of the SSH key to be used for VSIs"
 }
+*/
 
 /*
 variable "ibmcloud_api_key" {

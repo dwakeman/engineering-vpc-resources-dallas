@@ -7,9 +7,11 @@ data "ibm_schematics_output" "vpc" {
     template_id  = "${data.ibm_schematics_workspace.vpc.template_id.0}"
 }
 
+/*
 data "ibm_is_ssh_key" "samaritan" {
     name = var.ssh_key
 }
+*/
 
 data "ibm_resource_group" "vsi_resource_group" {
     name = var.vsi_resource_group
