@@ -22,7 +22,7 @@ data "ibm_resource_group" "app_resource_group" {
 }
 
 data "ibm_is_vpc" "vpc1" {
-    name = "engineering-dallas"
+    name = var.vpc_name
 }
 
 data "ibm_is_subnet" "app_subnet1" {
@@ -60,7 +60,7 @@ resource "ibm_container_vpc_cluster" "app_iks_cluster-01" {
     wait_till                       = "MasterNodeReady"
     disable_public_service_endpoint = false
     resource_group_id               = data.ibm_resource_group.app_resource_group.id
-    tags                            = ["env:${var.environment}","vpc:${var.vpc_name}","schematics:${var.schematics_workspace_name}"]
+    tags                            = ["env:${var.environment}","vpc:${var.vpc_name}","schematics:${var.schematics_workspace_id}"]
 
     zones {
         subnet_id = data.ibm_schematics_output.vpc.output_values.app_subnet1_id
@@ -90,7 +90,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
     disable_public_service_endpoint = false
     cos_instance_crn                = data.ibm_resource_instance.cos_instance.id
     resource_group_id               = data.ibm_resource_group.app_resource_group.id
-    tags                            = ["env:${var.environment}","vpc:${var.vpc_name}","schematics:${var.schematics_workspace_name}"]
+    tags                            = ["env:${var.environment}","vpc:${var.vpc_name}","schematics:${var.schematics_workspace_id}"]
     zones {
         subnet_id = data.ibm_schematics_output.vpc.output_values.app_subnet1_id
         name      = "${var.region}-1"

@@ -19,10 +19,21 @@ variable "generation" {
     default = 2
 }
 
-variable "vpc_schematics_workspace_id" {
-    description = "The schematics workspace ID that provisioned the VPC. Used to get VPC and subnets"
+variable "environment" {
+    default = "engineering"
 }
 
+variable "vpc_name" {
+    default = "engineering-dallas"
+}
+
+variable "vpc_schematics_workspace_id" {
+    description = "The schematics workspace ID that provisioned the VPC. Used to get VPC and subnets."
+}
+
+variable "schematics_workspace_id" {
+    description = "The id of this schematics workspace.  Used to tag resources."
+}
 variable "vsi_resource_group" {
     description = "The name of the resource group for VSIs"
 }
