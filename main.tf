@@ -80,8 +80,8 @@ resource "ibm_container_vpc_cluster" "app_iks_cluster-01" {
 # Create OCP Cluster
 ##############################################################################
 resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
-    name                            = "${var.environment}-ocp-02"
-    vpc_id                          = "r006-a1705bea-d7ab-429c-8e17-00d21c6ffe83"
+    name                            = "${var.environment}-ocp-01"
+    vpc_id                          = data.ibm_schematics_output.vpc.output_values.vpc_id
     flavor                          = "bx2.4x16"
     kube_version                    = "4.3_openshift"
     worker_count                    = "2"
