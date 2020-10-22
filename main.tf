@@ -147,7 +147,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
         private_endpoint = false
     }
 
-    depends_on = [ibm_kp_key.ocp_kp_key]
+    depends_on = [ibm_kp_key.ocp_01_kp_key]
 
 }
 
