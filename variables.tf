@@ -50,3 +50,12 @@ variable "cos_registry_instance" {
     description = "the name of the COS instance for the Openshift Registry bucket"
     default = "cos-openshift-registry"
 }
+
+variable "kms_resource_group" {
+    description = "The name of the resource group for the Key Protect or HPCS instance"
+}
+
+variable "kms_instance" {
+    description = "the name of the Key Protect or HPCS instance where the key will be created"
+    default = "key-protect-dallas-dw"
+}
