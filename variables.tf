@@ -62,6 +62,6 @@ variable "kms_resource_group" {
 }
 
 variable "kms_instance" {
-    description = "the name of the Key Protect or HPCS instance where the key will be created"
-    default = "key-protect-dallas-dw"
+    description = "the GUID of the Key Protect or HPCS instance where the key will be created"
+    default = "a58587c8-857a-4846-808d-3562de511fd6"
 }
