@@ -29,21 +29,26 @@ variable "vpc_name" {
 
 variable "vpc_schematics_workspace_id" {
     description = "The schematics workspace ID that provisioned the VPC. Used to get VPC and subnets."
+    default = "not-using-schematics"
 }
 
 variable "schematics_workspace_id" {
     description = "The id of this schematics workspace.  Used to tag resources."
+    default = "not-using-schematics"
 }
 variable "vsi_resource_group" {
     description = "The name of the resource group for VSIs"
+    default = "default"
 }
 
 variable "app_resource_group" {
     description = "The name of the resource group for the App IKS cluster"
+    default = "default"
 }
 
 variable "admin_resource_group" {
     description = "The name of the resource group for the Admin IKS cluster"
+    default = "account-admin-services"
 }
 
 variable "cos_registry_instance" {
@@ -53,6 +58,7 @@ variable "cos_registry_instance" {
 
 variable "kms_resource_group" {
     description = "The name of the resource group for the Key Protect or HPCS instance"
+    default = "account-shared-services"
 }
 
 variable "kms_instance" {

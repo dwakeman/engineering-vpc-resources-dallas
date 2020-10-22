@@ -65,11 +65,11 @@ locals {
 ##############################################################################
 # Create a customer root key
 ##############################################################################
-resource "ibm_kp_key" "ocp_01_kp_key" {
-    key_protect_id = ibm_resource_instance.kms_instance.guid
-    key_name       = "${locals.ocp_01_name}-crk"
-    standard_key   = false
-}
+#resource "ibm_kp_key" "ocp_01_kp_key" {
+#    key_protect_id = ibm_resource_instance.kms_instance.guid
+#    key_name       = "${local.ocp_01_name}-crk"
+#    standard_key   = false
+#}
 
 /*
 ##############################################################################
@@ -107,7 +107,7 @@ resource "ibm_container_vpc_cluster" "app_iks_cluster-01" {
 # Create OCP Cluster
 ##############################################################################
 resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
-    name                            = locals.ocp_01_name
+    name                            = local.ocp_01_name
     vpc_id                          = data.ibm_schematics_output.vpc.output_values.vpc_id
     flavor                          = "bx2.4x16"
     kube_version                    = "4.5_openshift"
