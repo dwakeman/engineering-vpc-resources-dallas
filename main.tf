@@ -131,19 +131,19 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
         name      = "${var.region}-3"
     }
 
-*/
 
-/*
-    kms_config {
-        instance_id = "12043812-757f-4e1e-8436-6af3245e6a69"
-        crk_id = "0792853c-b9f9-4b35-9d9e-ffceab51d3c1"
-        private_endpoint = false
-    }
+
+
+#    kms_config {
+#        instance_id = "12043812-757f-4e1e-8436-6af3245e6a69"
+#        crk_id = "0792853c-b9f9-4b35-9d9e-ffceab51d3c1"
+#        private_endpoint = false
+#    }
 
     depends_on = [ibm_kp_key.ocp_kp_key]
-*/
-}
 
+}
+*/
 
 
 
