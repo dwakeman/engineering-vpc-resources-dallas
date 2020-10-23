@@ -85,7 +85,7 @@ resource "ibm_kp_key" "ocp_01_kp_key" {
 ##############################################################################
 # Create IKS Cluster
 ##############################################################################
-resource "ibm_container_vpc_cluster" "app_iks_cluster-01" {
+resource "ibm_container_vpc_cluster" "app_iks_cluster_01" {
     name                            = "${var.environment}-iks-01"
     vpc_id                          = data.ibm_schematics_output.vpc.output_values.vpc_id
     flavor                          = "bx2.4x16"
@@ -116,7 +116,7 @@ resource "ibm_container_vpc_cluster" "app_iks_cluster-01" {
 ##############################################################################
 # Create OCP Cluster
 ##############################################################################
-resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
+resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
     name                            = local.ocp_01_name
     vpc_id                          = data.ibm_schematics_output.vpc.output_values.vpc_id
     flavor                          = "bx2.4x16"
@@ -145,7 +145,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
 
 
     kms_config {
-        instance_id = var.kms_instance
+        instance_id = data.ibm_resource_instance.kms_instance.guid
         crk_id = ibm_kp_key.ocp_01_kp_key.key_id
         private_endpoint = true
     }
