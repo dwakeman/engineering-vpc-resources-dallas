@@ -24,9 +24,11 @@ data "ibm_resource_group" "app_resource_group" {
     name = var.app_resource_group
 }
 
+
 data "ibm_is_vpc" "vpc1" {
     name = var.vpc_name
 }
+
 
 
 data "ibm_is_subnet" "app_subnet1" {
@@ -57,11 +59,11 @@ data "ibm_resource_group" "kms_group" {
   name = var.kms_resource_group
 }
 
-#data "ibm_resource_instance" "kms_instance" {
-#  name              = var.kms_instance
-#  resource_group_id = data.ibm_resource_group.kms_group.id
-#  service           = "kms"
-#}
+data "ibm_resource_instance" "kms_instance" {
+  name              = var.kms_instance
+  resource_group_id = data.ibm_resource_group.kms_group.id
+  service           = "kms"
+}
 
 
 locals {
@@ -73,8 +75,9 @@ locals {
 ##############################################################################
 resource "ibm_kp_key" "ocp_01_kp_key" {
     # punting for now; I can't get the reference to the data source to work...
-    key_protect_id = var.kms_instance
-    key_name       = "${local.ocp_01_name}-crk"
+#    key_protect_id = var.kms_instance
+    key_protect_id = data.ibm_resource_instance.kms_instance.guid
+    key_name       = "kube-${local.ocp_01_name}-crk"
     standard_key   = false
 }
 
@@ -144,7 +147,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
     kms_config {
         instance_id = var.kms_instance
         crk_id = ibm_kp_key.ocp_01_kp_key.key_id
-        private_endpoint = false
+        private_endpoint = true
     }
 
     depends_on = [ibm_kp_key.ocp_01_kp_key]
