@@ -178,7 +178,7 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
         name      = "${var.region}-3"
     }
 }
-
+/*
 ##############################################################################
 # Create block storage volume for use with Portworx in OCP Cluster above
 ##############################################################################
@@ -188,6 +188,7 @@ resource "ibm_is_volume" "px_sds_volume1" {
     zone           = local.zone1
     capacity       = 200
     resource_group = data.ibm_resource_group.app_resource_group.id
+    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone1}"]
 }
 
@@ -200,6 +201,7 @@ resource "ibm_is_volume" "px_sds_volume2" {
     zone           = local.zone2
     capacity       = 200
     resource_group = data.ibm_resource_group.app_resource_group.id
+    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone2}"]
 }
 
@@ -212,7 +214,8 @@ resource "ibm_is_volume" "px_sds_volume3" {
     zone           = local.zone3
     capacity       = 200
     resource_group = data.ibm_resource_group.app_resource_group.id
+    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone3}"]
 }
-
+*/
 
