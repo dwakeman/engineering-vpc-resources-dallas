@@ -224,4 +224,20 @@ resource "ibm_is_volume" "px_sds_volume3" {
     depends_on = [ibm_kp_key.ocp_01_kp_key]
 }
 
+##############################################################################
+# Create instance of Databases for Etcd for use with Portworx in OCP Cluster
+##############################################################################
+resource "ibm_resource_instance" "portworx_etcd" {
+    name = "etcd-px-${ibm_container_vpc_cluster.app_ocp_cluster_01.name}"
+    service = "databases-for-etcd"
+    plan = "standard"
+    location = var.region
+
+    parameters = {
+        disk_encryption_key_crn = ibm_kp_key.ocp_01_kp_key.crn
+    }
+    
+    depends_on = [ibm_kp_key.ocp_01_kp_key]
+}
+
 
