@@ -238,7 +238,7 @@ resource "ibm_resource_instance" "portworx_etcd" {
         backup_encryption_key_crn = ibm_kp_key.ocp_01_kp_key.crn
     }
     
-    depends_on = [ibm_kp_key.ocp_01_kp_key]
+    depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
 
 
