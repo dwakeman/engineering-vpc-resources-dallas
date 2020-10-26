@@ -234,7 +234,8 @@ resource "ibm_resource_instance" "portworx_etcd" {
     location = var.region
 
     parameters = {
-        disk_encryption_key_crn = ibm_kp_key.ocp_01_kp_key.crn
+        disk_encryption_key_crn   = ibm_kp_key.ocp_01_kp_key.crn
+        backup_encryption_key_crn = ibm_kp_key.ocp_01_kp_key.crn
     }
     
     depends_on = [ibm_kp_key.ocp_01_kp_key]
