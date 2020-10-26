@@ -68,6 +68,9 @@ data "ibm_resource_instance" "kms_instance" {
 
 locals {
     ocp_01_name = "${var.environment}-ocp-01"
+    zone1       = "${var.region}-1"
+    zone2       = "${var.region}-2"
+    zone3       = "${var.region}-3"
 }
 
 ##############################################################################
@@ -175,35 +178,41 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
         name      = "${var.region}-3"
     }
 }
-/*
+
 ##############################################################################
 # Create block storage volume for use with Portworx in OCP Cluster above
 ##############################################################################
 resource "ibm_is_volume" "px_sds_volume1" {
-    name     = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${var.region}-1-001"
-    profile  = "10iops-tier"
-    zone     = "${var.region}-1"
-    capacity = 200
+    name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone1}-001"
+    profile        = "10iops-tier"
+    zone           = "${local.zone1}"
+    capacity       = 200
+    resource_group = data.ibm_resource_group.app_resource_group.id
+    tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone1}"]
 }
 
 ##############################################################################
 # Create block storage volume for use with Portworx in OCP Cluster above
 ##############################################################################
 resource "ibm_is_volume" "px_sds_volume2" {
-    name     = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${var.region}-2-001"
-    profile  = "10iops-tier"
-    zone     = "${var.region}-2"
-    capacity = 200
+    name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone2}-001"
+    profile        = "10iops-tier"
+    zone           = "${local.zone2}"
+    capacity       = 200
+    resource_group = data.ibm_resource_group.app_resource_group.id
+    tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone2}"]
 }
 
 ##############################################################################
 # Create block storage volume for use with Portworx in OCP Cluster above
 ##############################################################################
 resource "ibm_is_volume" "px_sds_volume3" {
-    name     = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${var.region}-3-001"
-    profile  = "10iops-tier"
-    zone     = "${var.region}-3"
-    capacity = 200
+    name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone3}-001"
+    profile        = "10iops-tier"
+    zone           = "${local.zone3}"
+    capacity       = 200
+    resource_group = data.ibm_resource_group.app_resource_group.id
+    tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone3}"]
 }
-*/
+
 
