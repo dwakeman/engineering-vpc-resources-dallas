@@ -141,9 +141,6 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
         name      = "${var.region}-3"
     }
 
-
-
-
     kms_config {
         instance_id = data.ibm_resource_instance.kms_instance.guid
         crk_id = ibm_kp_key.ocp_01_kp_key.key_id
@@ -151,9 +148,30 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
     }
 
     depends_on = [ibm_kp_key.ocp_01_kp_key]
-
 }
 
+resource "ibm_container_vpc_worker_pool" "sds_pool" {
+    cluster           = ibm_container_vpc_cluster.app_ocp_cluster_01.name
+    worker_pool_name  = "sds"
+    flavor            = "bx2.8x32"
+    vpc_id            = data.ibm_schematics_output.vpc.output_values.vpc_id
+    worker_count      = 1
+    entitlement       = "cloud_pak"
+    resource_group_id = data.ibm_resource_group.app_resource_group.id
+
+    zones {
+        subnet_id = data.ibm_schematics_output.vpc.output_values.app_subnet1_id
+        name      = "${var.region}-1"
+    }
+    zones {
+        subnet_id = data.ibm_schematics_output.vpc.output_values.app_subnet2_id
+        name      = "${var.region}-2"
+    }
+    zones {
+        subnet_id = data.ibm_schematics_output.vpc.output_values.app_subnet3_id
+        name      = "${var.region}-3"
+    }
+}
 
 
 
