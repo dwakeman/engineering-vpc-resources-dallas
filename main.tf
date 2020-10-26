@@ -150,6 +150,9 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
     depends_on = [ibm_kp_key.ocp_01_kp_key]
 }
 
+##############################################################################
+# Create Worker Pool for Portworx (SDS) for OCP cluster above
+##############################################################################
 resource "ibm_container_vpc_worker_pool" "sds_pool" {
     cluster           = ibm_container_vpc_cluster.app_ocp_cluster_01.name
     worker_pool_name  = "sds"
@@ -173,7 +176,34 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
     }
 }
 
+##############################################################################
+# Create block storage volume for use with Portworx in OCP Cluster above
+##############################################################################
+resource "ibm_is_volume" "px_sds_volume1" {
+    name     = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${var.region}-1-001"
+    profile  = "10iops-tier"
+    zone     = "${var.region}-1"
+    capacity = 200
+}
 
+##############################################################################
+# Create block storage volume for use with Portworx in OCP Cluster above
+##############################################################################
+resource "ibm_is_volume" "px_sds_volume2" {
+    name     = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${var.region}-2-001"
+    profile  = "10iops-tier"
+    zone     = "${var.region}-2"
+    capacity = 200
+}
 
+##############################################################################
+# Create block storage volume for use with Portworx in OCP Cluster above
+##############################################################################
+resource "ibm_is_volume" "px_sds_volume3" {
+    name     = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${var.region}-3-001"
+    profile  = "10iops-tier"
+    zone     = "${var.region}-3"
+    capacity = 200
+}
 
 
