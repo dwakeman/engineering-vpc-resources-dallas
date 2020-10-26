@@ -190,6 +190,8 @@ resource "ibm_is_volume" "px_sds_volume1" {
     resource_group = data.ibm_resource_group.app_resource_group.id
     encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone1}"]
+
+    depends_on = [ibm_kp_key.ocp_01_kp_key]
 }
 
 ##############################################################################
@@ -203,6 +205,8 @@ resource "ibm_is_volume" "px_sds_volume2" {
     resource_group = data.ibm_resource_group.app_resource_group.id
     encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone2}"]
+
+    depends_on = [ibm_kp_key.ocp_01_kp_key]
 }
 
 ##############################################################################
@@ -216,6 +220,8 @@ resource "ibm_is_volume" "px_sds_volume3" {
     resource_group = data.ibm_resource_group.app_resource_group.id
     encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone3}"]
+
+    depends_on = [ibm_kp_key.ocp_01_kp_key]
 }
 
 
