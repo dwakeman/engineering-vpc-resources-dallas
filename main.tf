@@ -185,7 +185,7 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
 resource "ibm_is_volume" "px_sds_volume1" {
     name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone1}-001"
     profile        = "10iops-tier"
-    zone           = "${local.zone1}"
+    zone           = local.zone1
     capacity       = 200
     resource_group = data.ibm_resource_group.app_resource_group.id
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone1}"]
@@ -197,7 +197,7 @@ resource "ibm_is_volume" "px_sds_volume1" {
 resource "ibm_is_volume" "px_sds_volume2" {
     name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone2}-001"
     profile        = "10iops-tier"
-    zone           = "${local.zone2}"
+    zone           = local.zone2
     capacity       = 200
     resource_group = data.ibm_resource_group.app_resource_group.id
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone2}"]
@@ -209,7 +209,7 @@ resource "ibm_is_volume" "px_sds_volume2" {
 resource "ibm_is_volume" "px_sds_volume3" {
     name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone3}-001"
     profile        = "10iops-tier"
-    zone           = "${local.zone3}"
+    zone           = local.zone3
     capacity       = 200
     resource_group = data.ibm_resource_group.app_resource_group.id
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone3}"]
