@@ -175,7 +175,7 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
         name      = "${var.region}-3"
     }
 }
-
+/*
 ##############################################################################
 # Create block storage volume for use with Portworx in OCP Cluster above
 ##############################################################################
@@ -205,5 +205,5 @@ resource "ibm_is_volume" "px_sds_volume3" {
     zone     = "${var.region}-3"
     capacity = 200
 }
-
+*/
 
