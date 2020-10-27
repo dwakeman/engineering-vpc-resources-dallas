@@ -250,7 +250,7 @@ resource "ibm_resource_instance" "portworx_etcd" {
     }
 
     timeouts {
-        create = "15m"
+        create = "30m"
         delete = "15m"
     }
 
