@@ -119,12 +119,57 @@ resource "ibm_kp_key" "ocp_01_kp_key" {
 }
 
 ##############################################################################
+# Create block storage volume for use with Portworx in OCP Cluster above
+##############################################################################
+resource "ibm_is_volume" "px_sds_volume1" {
+    name           = "px-${local.ocp_01_name}-${local.zone1}-001"
+    profile        = "10iops-tier"
+    zone           = local.zone1
+    capacity       = 200
+    resource_group = data.ibm_resource_group.app_resource_group.id
+    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
+    tags           = ["${local.ocp_01_name}", "${local.zone1}", "schematics:${var.schematics_workspace_id}"]
+
+    depends_on = [ibm_kp_key.ocp_01_kp_key]
+}
+
+##############################################################################
+# Create block storage volume for use with Portworx in OCP Cluster above
+##############################################################################
+resource "ibm_is_volume" "px_sds_volume2" {
+    name           = "px-${local.ocp_01_name}-${local.zone2}-001"
+    profile        = "10iops-tier"
+    zone           = local.zone2
+    capacity       = 200
+    resource_group = data.ibm_resource_group.app_resource_group.id
+    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
+    tags           = ["${local.ocp_01_name}", "${local.zone2}", "schematics:${var.schematics_workspace_id}"]
+
+    depends_on = [ibm_kp_key.ocp_01_kp_key]
+}
+
+##############################################################################
+# Create block storage volume for use with Portworx in OCP Cluster above
+##############################################################################
+resource "ibm_is_volume" "px_sds_volume3" {
+    name           = "px-${local.ocp_01_name}-${local.zone3}-001"
+    profile        = "10iops-tier"
+    zone           = local.zone3
+    capacity       = 200
+    resource_group = data.ibm_resource_group.app_resource_group.id
+    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
+    tags           = ["${local.ocp_01_name}", "${local.zone3}", "schematics:${var.schematics_workspace_id}"]
+
+    depends_on = [ibm_kp_key.ocp_01_kp_key]
+}
+
+##############################################################################
 # Create OCP Cluster
 ##############################################################################
 resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
     name                            = local.ocp_01_name
     vpc_id                          = data.ibm_schematics_output.vpc.output_values.vpc_id
-    flavor                          = "bx2.4x16"
+    flavor                          = "bx2.8x32"
     kube_version                    = "4.5_openshift"
     worker_count                    = "1"
     entitlement                     = "cloud_pak"
@@ -152,9 +197,14 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
         private_endpoint = true
     }
 
-    depends_on = [ibm_kp_key.ocp_01_kp_key]
+    depends_on = [
+        ibm_kp_key.ocp_01_kp_key,
+        ibm_is_volume.px_sds_volume1, 
+        ibm_is_volume.px_sds_volume2,
+        ibm_is_volume.px_sds_volume3
+    ]
 }
-
+/*
 ##############################################################################
 # Create Worker Pool for Portworx (SDS) for OCP cluster above
 ##############################################################################
@@ -187,51 +237,8 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
 
     depends_on = [ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
+*/
 
-##############################################################################
-# Create block storage volume for use with Portworx in OCP Cluster above
-##############################################################################
-resource "ibm_is_volume" "px_sds_volume1" {
-    name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone1}-001"
-    profile        = "10iops-tier"
-    zone           = local.zone1
-    capacity       = 200
-    resource_group = data.ibm_resource_group.app_resource_group.id
-    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
-    tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone1}", "schematics:${var.schematics_workspace_id}"]
-
-    depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
-}
-
-##############################################################################
-# Create block storage volume for use with Portworx in OCP Cluster above
-##############################################################################
-resource "ibm_is_volume" "px_sds_volume2" {
-    name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone2}-001"
-    profile        = "10iops-tier"
-    zone           = local.zone2
-    capacity       = 200
-    resource_group = data.ibm_resource_group.app_resource_group.id
-    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
-    tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone2}", "schematics:${var.schematics_workspace_id}"]
-
-    depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
-}
-
-##############################################################################
-# Create block storage volume for use with Portworx in OCP Cluster above
-##############################################################################
-resource "ibm_is_volume" "px_sds_volume3" {
-    name           = "px-${ibm_container_vpc_cluster.app_ocp_cluster_01.id}-${local.zone3}-001"
-    profile        = "10iops-tier"
-    zone           = local.zone3
-    capacity       = 200
-    resource_group = data.ibm_resource_group.app_resource_group.id
-    encryption_key = ibm_kp_key.ocp_01_kp_key.crn
-    tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone3}", "schematics:${var.schematics_workspace_id}"]
-
-    depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
-}
 
 ##############################################################################
 # Create instance of Databases for Etcd for use with Portworx in OCP Cluster
