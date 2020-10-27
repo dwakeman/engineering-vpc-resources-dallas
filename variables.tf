@@ -20,7 +20,7 @@ variable "generation" {
 }
 
 variable "environment" {
-    default = "eng"
+    default = "engg"
 }
 
 variable "vpc_name" {

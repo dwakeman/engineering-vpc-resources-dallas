@@ -243,14 +243,14 @@ resource "ibm_resource_instance" "portworx_etcd" {
     location          = var.region
     resource_group_id = data.ibm_resource_group.app_resource_group.id
     tags              = ["env:${var.environment}","vpc:${var.vpc_name}","schematics:${var.schematics_workspace_id}"]
-
+/*
     parameters = {
         # Note:  The use of an encryption key for backups requires delegation on the service-to-service authorization
         #        https://cloud.ibm.com/docs/cloud-databases?topic=cloud-databases-key-protect#byok-for-backups
-        disk_encryption_key_crn   = ibm_kp_key.ocp_01_kp_key.crn
-        backup_encryption_key_crn = ibm_kp_key.ocp_01_kp_key.crn
+#        disk_encryption_key_crn   = ibm_kp_key.ocp_01_kp_key.crn
+#        backup_encryption_key_crn = ibm_kp_key.ocp_01_kp_key.crn
     }
-
+*/
     timeouts {
         create = "30m"
         delete = "15m"
