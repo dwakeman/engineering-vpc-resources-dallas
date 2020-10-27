@@ -152,7 +152,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
 
     depends_on = [ibm_kp_key.ocp_01_kp_key]
 }
-
+/*
 ##############################################################################
 # Create Worker Pool for Portworx (SDS) for OCP cluster above
 ##############################################################################
@@ -177,6 +177,8 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
         subnet_id = data.ibm_schematics_output.vpc.output_values.app_subnet3_id
         name      = "${var.region}-3"
     }
+
+    depends_on = [ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
 
 ##############################################################################
@@ -191,7 +193,7 @@ resource "ibm_is_volume" "px_sds_volume1" {
     encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone1}"]
 
-    depends_on = [ibm_kp_key.ocp_01_kp_key]
+    depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
 
 ##############################################################################
@@ -206,7 +208,7 @@ resource "ibm_is_volume" "px_sds_volume2" {
     encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone2}"]
 
-    depends_on = [ibm_kp_key.ocp_01_kp_key]
+    depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
 
 ##############################################################################
@@ -221,17 +223,18 @@ resource "ibm_is_volume" "px_sds_volume3" {
     encryption_key = ibm_kp_key.ocp_01_kp_key.crn
     tags           = ["${ibm_container_vpc_cluster.app_ocp_cluster_01.name}", "${local.zone3}"]
 
-    depends_on = [ibm_kp_key.ocp_01_kp_key]
+    depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
 
 ##############################################################################
 # Create instance of Databases for Etcd for use with Portworx in OCP Cluster
 ##############################################################################
 resource "ibm_resource_instance" "portworx_etcd" {
-    name     = "etcd-px-${ibm_container_vpc_cluster.app_ocp_cluster_01.name}"
-    service  = "databases-for-etcd"
-    plan     = "standard"
-    location = var.region
+    name              = "etcd-px-${ibm_container_vpc_cluster.app_ocp_cluster_01.name}"
+    service           = "databases-for-etcd"
+    plan              = "standard"
+    location          = var.region
+    resource_group_id = data.ibm_resource_group.app_resource_group.id
 
     parameters = {
         disk_encryption_key_crn   = ibm_kp_key.ocp_01_kp_key.crn
@@ -240,5 +243,5 @@ resource "ibm_resource_instance" "portworx_etcd" {
     
     depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
-
+*/
 
