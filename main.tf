@@ -264,7 +264,7 @@ resource "ibm_resource_instance" "portworx_etcd" {
 ##############################################################################
 resource "ibm_resource_key" "etcd_credentials" {
     name                 = "px-credentials"
-    role                 = "Writer"
+    role                 = "Viewer"
     resource_instance_id = ibm_resource_instance.portworx_etcd.id
 
     depends_on = [ibm_resource_instance.portworx_etcd]
