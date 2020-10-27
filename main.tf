@@ -245,6 +245,8 @@ resource "ibm_resource_instance" "portworx_etcd" {
     tags              = ["env:${var.environment}","vpc:${var.vpc_name}","schematics:${var.schematics_workspace_id}"]
 
     parameters = {
+        # Note:  The use of an encryption key for backups requires delegation on the service-to-service authorization
+        #        https://cloud.ibm.com/docs/cloud-databases?topic=cloud-databases-key-protect#byok-for-backups
         disk_encryption_key_crn   = ibm_kp_key.ocp_01_kp_key.crn
         backup_encryption_key_crn = ibm_kp_key.ocp_01_kp_key.crn
     }
