@@ -118,6 +118,7 @@ resource "ibm_kp_key" "ocp_01_kp_key" {
     standard_key   = false
 }
 
+/*
 ##############################################################################
 # Create block storage volume for use with Portworx in OCP Cluster above
 ##############################################################################
@@ -162,6 +163,7 @@ resource "ibm_is_volume" "px_sds_volume3" {
 
     depends_on = [ibm_kp_key.ocp_01_kp_key]
 }
+*/
 
 ##############################################################################
 # Create OCP Cluster
@@ -169,7 +171,7 @@ resource "ibm_is_volume" "px_sds_volume3" {
 resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
     name                            = local.ocp_01_name
     vpc_id                          = data.ibm_schematics_output.vpc.output_values.vpc_id
-    flavor                          = "bx2.8x32"
+    flavor                          = "bx2.4x16"
     kube_version                    = "4.5_openshift"
     worker_count                    = "1"
     entitlement                     = "cloud_pak"
@@ -198,20 +200,21 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
     }
 
     depends_on = [
-        ibm_kp_key.ocp_01_kp_key,
-        ibm_is_volume.px_sds_volume1, 
-        ibm_is_volume.px_sds_volume2,
-        ibm_is_volume.px_sds_volume3
+#        ibm_is_volume.px_sds_volume1, 
+#        ibm_is_volume.px_sds_volume2,
+#        ibm_is_volume.px_sds_volume3,
+        ibm_kp_key.ocp_01_kp_key
+
     ]
 }
-/*
+
 ##############################################################################
-# Create Worker Pool for Portworx (SDS) for OCP cluster above
+# Create Worker Pool for Portworx or Openshift Container Storage (SDS) 
 ##############################################################################
 resource "ibm_container_vpc_worker_pool" "sds_pool" {
     cluster           = ibm_container_vpc_cluster.app_ocp_cluster_01.name
     worker_pool_name  = "sds"
-    flavor            = "bx2.8x32"
+    flavor            = "cx2.16x32"
     vpc_id            = data.ibm_schematics_output.vpc.output_values.vpc_id
     worker_count      = 1
     entitlement       = "cloud_pak"
@@ -237,9 +240,9 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
 
     depends_on = [ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
-*/
 
 
+/*
 ##############################################################################
 # Create instance of Databases for Etcd for use with Portworx in OCP Cluster
 ##############################################################################
@@ -250,14 +253,14 @@ resource "ibm_resource_instance" "portworx_etcd" {
     location          = var.region
     resource_group_id = data.ibm_resource_group.app_resource_group.id
     tags              = ["env:${var.environment}","vpc:${var.vpc_name}","schematics:${var.schematics_workspace_id}"]
-/*
+
     parameters = {
         # Note:  The use of an encryption key for backups requires delegation on the service-to-service authorization
         #        https://cloud.ibm.com/docs/cloud-databases?topic=cloud-databases-key-protect#byok-for-backups
-#        disk_encryption_key_crn   = ibm_kp_key.ocp_01_kp_key.crn
+        disk_encryption_key_crn   = ibm_kp_key.ocp_01_kp_key.crn
 #        backup_encryption_key_crn = ibm_kp_key.ocp_01_kp_key.crn
     }
-*/
+
     timeouts {
         create = "30m"
         delete = "15m"
@@ -265,6 +268,7 @@ resource "ibm_resource_instance" "portworx_etcd" {
 
     depends_on = [ibm_kp_key.ocp_01_kp_key, ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
+
 
 ##############################################################################
 # Create credentials for Databases for Etcd instance above
@@ -276,3 +280,4 @@ resource "ibm_resource_key" "etcd_credentials" {
 
     depends_on = [ibm_resource_instance.portworx_etcd]
 }
+*/
