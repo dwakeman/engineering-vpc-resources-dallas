@@ -208,6 +208,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster_01" {
     ]
 }
 
+/*
 ##############################################################################
 # Create Worker Pool for Portworx or Openshift Container Storage (SDS) 
 ##############################################################################
@@ -240,7 +241,7 @@ resource "ibm_container_vpc_worker_pool" "sds_pool" {
 
     depends_on = [ibm_container_vpc_cluster.app_ocp_cluster_01]
 }
-
+*/
 
 /*
 ##############################################################################
