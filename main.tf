@@ -6,7 +6,7 @@ data "ibm_schematics_workspace" "vpc" {
 
 data "ibm_schematics_output" "vpc" {
     workspace_id = var.vpc_schematics_workspace_id
-    template_id  = "${data.ibm_schematics_workspace.vpc.template_id.0}"
+    template_id  = data.ibm_schematics_workspace.vpc.runtime_data[0].id
 }
 
 data "ibm_resource_group" "vsi_resource_group" {
